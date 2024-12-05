@@ -1,0 +1,22 @@
+import SwiftUI
+
+class GamesViewModel: ObservableObject {
+    @Published var games: [Game] = []
+
+    func fetchData(from url: URL) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error fetching data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            do {
+                let decodedData = try JSONDecoder().decode([Game].self, from: data)
+                DispatchQueue.main.async {
+                    self.games = decodedData
+                }
+            } catch {
+                print("Error decoding data: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+}
