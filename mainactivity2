@@ -1,0 +1,33 @@
+package com.daye.finalexam.composables
+
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.foundation.layout.padding
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.daye.finalexam.data.api.EpisodesViewModel
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.CoroutineScope
+import androidx.compose.ui.unit.dp
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen(vm: EpisodesViewModel) {
+    val navController = rememberNavController()
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = { NavDrawer(navController = navController, drawerState = drawerState, scope = scope) }
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(title = { Text(text = "My App") })
+            }
+        ) { innerPadding ->
+            Navigation(navController = navController, vm = vm, modifier = Modifier.padding(innerPadding))
+        }
+    }
+}
