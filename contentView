@@ -1,0 +1,35 @@
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        TabView {
+            GamesListView()
+                .tabItem {
+                    Image(systemName: "gamecontroller.fill")
+                    Text("Games")
+                }
+            
+            MapView()
+                .tabItem {
+                    Image(systemName: "map.fill")
+                    Text("Map")
+                }
+                
+            ConverterView()
+                .tabItem {
+                    Image(systemName: "thermometer")
+                    Text("Converter")
+                }
+            
+            AboutView()
+                .tabItem {
+                    Image(systemName: "info.circle.fill")
+                    Text("About")
+                }
+        }
+    }
+}
+
+#Preview {
+    ContentView()
+}
