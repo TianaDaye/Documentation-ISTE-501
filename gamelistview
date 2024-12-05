@@ -2,27 +2,27 @@ import SwiftUI
 
 struct GamesListView: View { 
     
-    @ObservableObject var viewModel = GamesViewModel()
+    @StateObject var viewModel = GamesViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if viewModel.games.isEmpty {
                 Text("No Games available")
                     .foregroundColor(.gray)
             } else {
-                List(viewModel.games, id: \.id) { game in
-                    NavigationLink(destination: GameDetailedView(Games: game)) {
+                List(viewModel.games) { game in
+                    NavigationLink(destination: GameDetailedView(game: game)) {
                         VStack(alignment: .leading) {
                             Text(game.name)
                                 .font(.headline)
-                                .color(.blue)
-                            Text("Publisher: \(game.publisher)")
+                                .foregroundColor(.blue)
+                            Text("Publisher: \(game.publisherName)")
                                 .font(.subheadline)
-                                .color(.black)
-                                .bold
+                                .foregroundColor(.black)
+                                .bold()
                             Text("Release Date: \(game.releaseDate)")
                                 .font(.subheadline)
-                                .color(.green)
+                                .foregroundColor(.green)
                         }
                     }
                 }
@@ -30,14 +30,13 @@ struct GamesListView: View {
                 .navigationTitle("Games")
             }
         }
-        .onAppear{
+        .onAppear {
             let url = URL(string: "https://ischool.gccis.rit.edu/mobile/ps5.php")!
             viewModel.fetchData(from: url)
         }
     }
-
+    
     #Preview {
         GamesListView()
-        
     }
 }
