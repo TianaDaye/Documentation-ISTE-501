@@ -1,0 +1,43 @@
+import SwiftUI
+
+struct GamesListView: View { 
+    
+    @ObservableObject var viewModel = GamesViewModel()
+    
+    var body: some View {
+        NavigationView {
+            if viewModel.games.isEmpty {
+                Text("No Games available")
+                    .foregroundColor(.gray)
+            } else {
+                List(viewModel.games, id: \.id) { game in
+                    NavigationLink(destination: GameDetailedView(Games: game)) {
+                        VStack(alignment: .leading) {
+                            Text(game.name)
+                                .font(.headline)
+                                .color(.blue)
+                            Text("Publisher: \(game.publisher)")
+                                .font(.subheadline)
+                                .color(.black)
+                                .bold
+                            Text("Release Date: \(game.releaseDate)")
+                                .font(.subheadline)
+                                .color(.green)
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .navigationTitle("Games")
+            }
+        }
+        .onAppear{
+            let url = URL(string: "https://ischool.gccis.rit.edu/mobile/ps5.php")!
+            viewModel.fetchData(from: url)
+        }
+    }
+
+    #Preview {
+        GamesListView()
+        
+    }
+}
