@@ -1,0 +1,37 @@
+package com.daye.finalexam.composables
+
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavHostController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NavDrawer(navController: NavHostController, drawerState: DrawerState, scope: CoroutineScope) {
+    ModalDrawerSheet {
+        Text("Menu", modifier = Modifier.padding(16.dp))
+        Divider()
+        NavigationDrawerItem(
+            label = { Text("Episodes") },
+            selected = false,
+            onClick = {
+                scope.launch {
+                    drawerState.close()
+                }
+                navController.navigate("episodes")
+            }
+        )
+        NavigationDrawerItem(
+            label = { Text("About") },
+            selected = false,
+            onClick = {
+                scope.launch {
+                    drawerState.close()
+                }
+                navController.navigate("about")
+            }
+        )
+    }
+}
