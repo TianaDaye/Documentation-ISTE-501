@@ -1,0 +1,33 @@
+package com.daye.finalexam.data.api
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.daye.finalexam.data.models.Episode
+import kotlinx.coroutines.launch
+
+class EpisodesViewModel : ViewModel() {
+    private val _episodesList = mutableStateListOf<Episode>()
+    val episodesList: List<Episode> get() = _episodesList
+
+    var errorMessage: String by mutableStateOf("")
+    var isLoading by mutableStateOf(false)
+
+    fun getEpisodes() {
+        viewModelScope.launch {
+            isLoading = true
+            try {
+                val response = APIService.getInstance().getEpisodes()
+                _episodesList.clear()
+                _episodesList.addAll(response)
+            } catch (e: Exception) {
+                errorMessage = e.message ?: "Unknown Error"
+            } finally {
+                isLoading = false
+            }
+        }
+    }
+}
