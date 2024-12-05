@@ -1,0 +1,22 @@
+import SwiftUI
+
+struct GameDetailedView: View {
+    let game: Game
+
+    var body: some View {
+        VStack {
+            Text(game.name)
+                .font(.title)
+            Text("Publisher: \(game.publisherName)")
+                .padding(.bottom)
+            Text("Release Date: \(game.releaseDate)")
+            Spacer()
+        }
+        .padding()
+        .navigationTitle(game.name)
+    }
+}
+
+#Preview {
+    GameDetailedView(game: Game(id: "1", url: "https://example.com", publisherName: "Publisher", releaseDate: "2021-01-01", name: "Sample Game", isAgeRestricted: false, activeCtaID: "1", starRatingAverageRating: 4.5, starRatingTotalRatingsCount: 100))
+}
